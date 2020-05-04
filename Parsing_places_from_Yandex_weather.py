@@ -71,7 +71,7 @@ def world_cities(url):
 
 
 if __name__ == '__main__':
-    sleeping_time = 2
+    sleeping_time = 1
     rus_cities('https://yandex.ru/pogoda/region/225')
     world_cities('https://yandex.ru/pogoda/region')
 
