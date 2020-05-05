@@ -27,8 +27,8 @@ def get_places_id(place_name):
             with open(f'{path}{file}', 'rb') as file:
                 target_dict = pickle.load(file)
                 if place_name in target_dict:
-                    print(target_dict[place_name])
                     id = target_dict[place_name]
+                    print(id)
                     return id
 
 
@@ -36,7 +36,7 @@ def get_places_id(place_name):
 
 if __name__ == '__main__':
     path = 'D:\\GitHub\\YandexWeather\\pickle_ru\\'
-    place = 'Оймякон'
+    place = 'Митино'
 
     get_weather(get_places_id(place))
 
