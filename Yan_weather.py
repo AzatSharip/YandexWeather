@@ -24,50 +24,39 @@ def get_weather(id):
 
 def get_places_id(place_name):
     i = 0
-    temp_dict = {}
+    id_list = []
     for rootdir, dirs, files in os.walk(path):
         for file in files:
             with open(f'{path}{file}', 'rb') as file_data:
                 target_dict = pickle.load(file_data)
                 names = file_data.name.replace(path, '').replace('.data', '')
-
-                if place_name in str(target_dict):
-                    i += 1
-                    temp_dict[i, names] = target_dict
-                    print(f'{i} --- {names}')
-
-
-    for k, v in temp_dict.items():
-        if place_name in str(v):
-            for key, value in v.items():
-                if key.startswith(place_name):
-                    fin_dict[key] = value
-                    print(f'{key} ---> {value}')
-    #print(fin_dict)
-
-    if i > 1:
-        num_of_variant = int(input(f'{i} places with same name. Put number of your varaiant >>> '))
-        id = temp_dict[num_of_variant][place_name]
-        print(f'Your place id is {id}')
-
-    elif i == 1:
-        id = temp_dict[i, place_name]
-        print(id)
+                for key, value in target_dict.items():
+                    if key.startswith(place_name):
+                        i += 1
+                        id_list.append(value)
+                        print(f'{i} ---> {key} ({names})')
+    #print(id_list)
+    print('-----------------------------------')
+    if len(id_list) > 1:
+        num_of_variant = int(input(f'We found {i} places with similar names. Enter the number of your region from the list >>> '))
+        print('-----------------------------------')
+        id = id_list[num_of_variant-1]
         return id
-
-
-
-
-
-
+    elif len(id_list) == 1:
+        id = id_list[0]
+        return id
+    elif len(id_list) < 1:
+        print('There\'s no such place!')
 
 
 
 if __name__ == '__main__':
+    place = input('Enter the name of the locality you want to know the weather for >>> ')
     fin_dict = {}
+    #path = 'D:\\GitHub\\YandexWeather\\pickle_world\\'
     path = 'D:\\GitHub\\YandexWeather\\pickle_ru\\'
-    place = 'Зубово'
+
     pl = get_places_id(place)
-    #get_weather(pl)
+    get_weather(pl)
 
 

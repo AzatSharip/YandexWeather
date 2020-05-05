@@ -78,10 +78,10 @@ if __name__ == '__main__':
     sleeping_time = 1
     ru_url = 'https://yandex.ru/pogoda/region/225'
     world_url = 'https://yandex.ru/pogoda/region'
-    path = 'D:\\GitHub\\YandexWeather\\pickle_ru\\'
+    path = 'D:\\GitHub\\YandexWeather\\pickle_world\\'
 
-    rus_cities(ru_url)
-    #world_cities(world_url)
+    #rus_cities(ru_url)
+    world_cities(world_url)
 
 
 
