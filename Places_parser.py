@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import time
 import os
 import pickle
-from YandexWeather.Yan_weather import*
+# from YandexWeather.Yan_weather import*
 
 
 def regions_parser(url):
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     sleeping_time = 1
     ru_url = 'https://yandex.ru/pogoda/region/225'
     world_url = 'https://yandex.ru/pogoda/region'
-
+    path = 'D:\\GitHub\\YandexWeather\\pickle_ru\\'
 
     rus_cities(ru_url)
     #world_cities(world_url)

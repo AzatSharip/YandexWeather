@@ -3,7 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import pickle
-from Places_parser import*
+import re
+# from Places_parser import*
 
 def get_weather(id):
     request = requests.get(f'https://yandex.ru/pogoda/{id}')
@@ -22,22 +23,51 @@ def get_weather(id):
 
 
 def get_places_id(place_name):
+    i = 0
+    temp_dict = {}
     for rootdir, dirs, files in os.walk(path):
         for file in files:
-            with open(f'{path}{file}', 'rb') as file:
-                target_dict = pickle.load(file)
-                if place_name in target_dict:
-                    id = target_dict[place_name]
-                    print(id)
-                    return id
+            with open(f'{path}{file}', 'rb') as file_data:
+                target_dict = pickle.load(file_data)
+                names = file_data.name.replace(path, '').replace('.data', '')
+
+                if place_name in str(target_dict):
+                    i += 1
+                    temp_dict[i, names] = target_dict
+                    print(f'{i} --- {names}')
+
+
+    for k, v in temp_dict.items():
+        if place_name in str(v):
+            for key, value in v.items():
+                if key.startswith(place_name):
+                    fin_dict[key] = value
+                    print(f'{key} ---> {value}')
+    #print(fin_dict)
+
+    if i > 1:
+        num_of_variant = int(input(f'{i} places with same name. Put number of your varaiant >>> '))
+        id = temp_dict[num_of_variant][place_name]
+        print(f'Your place id is {id}')
+
+    elif i == 1:
+        id = temp_dict[i, place_name]
+        print(id)
+        return id
+
+
+
+
+
 
 
 
 
 if __name__ == '__main__':
+    fin_dict = {}
     path = 'D:\\GitHub\\YandexWeather\\pickle_ru\\'
-    place = 'Митино'
-
-    get_weather(get_places_id(place))
+    place = 'Зубово'
+    pl = get_places_id(place)
+    #get_weather(pl)
 
 
