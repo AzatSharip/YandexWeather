@@ -2,6 +2,9 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+import os
+import pickle
+# from YandexWeather.Yan_weather import*
 
 
 def regions_parser(url):
@@ -22,7 +25,7 @@ def regions_parser(url):
         print('Bad request.status_code:', request.status_code)
 
 
-def cities_parser(country_region, id):
+def cities_parser(country_region, id, path):
     time.sleep(sleeping_time)
     request = requests.get('https://yandex.ru/pogoda/region/'+str(id))
     if request.status_code == 200:
@@ -38,12 +41,11 @@ def cities_parser(country_region, id):
 
         countries_dict[country_region] = places_dict
 
-        with open('Countries_base.txt', 'a') as file:
-            file.write(str(countries_dict))
-
-        with open(f'other/{country_region}.txt', 'w') as file:
-            file.write(str(places_dict))
+        os.makedirs(path, exist_ok=True)
+        with open(f'{path}{country_region}.data', 'wb') as file:
+            pickle.dump(places_dict, file)
             print(f'{country_region} is done!')
+
     else:
         print('Bad request.status_code on cities_parser module:', request.status_code)
 
@@ -54,7 +56,7 @@ def rus_cities(url):
     count = 0
     for region, id in rus_regions_dict.items():
         count += 1
-        cities_parser(region, id)
+        cities_parser(region, id, path)
         print(f'There are {rus_lenght - count} regions left')
         print('-----------------------------------------')
 
@@ -65,15 +67,21 @@ def world_cities(url):
     count = 0
     for country, id in countries_dict.items():
         count += 1
-        cities_parser(country, id)
+        cities_parser(country, id, path)
         print(f'There are {other_lenght - count} countries left')
         print('-----------------------------------------')
 
 
+
+
 if __name__ == '__main__':
     sleeping_time = 1
-    rus_cities('https://yandex.ru/pogoda/region/225')
-    world_cities('https://yandex.ru/pogoda/region')
+    ru_url = 'https://yandex.ru/pogoda/region/225'
+    world_url = 'https://yandex.ru/pogoda/region'
+    path = 'D:\\GitHub\\YandexWeather\\pickle_world\\'
+
+    #rus_cities(ru_url)
+    world_cities(world_url)
 
 
 
